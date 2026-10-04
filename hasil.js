@@ -48,9 +48,9 @@
 
   function predikat(n) {
     if (n >= 92) return ['ok', 'Sangat baik'];
-    if (n >= 82) return ['ok', 'Baik'];
-    if (n >= 72) return ['warn', 'Cukup'];
-    return ['bad', 'Perlu belajar lagi'];
+    if (n >= 87) return ['ok', 'Baik'];
+    if (n >= 82) return ['warn', 'Cukup'];
+    return ['bad', 'Kurang'];
   }
 
   $('form-hasil').addEventListener('submit', function (ev) {
