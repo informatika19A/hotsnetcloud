@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hasil Penilaian HOTS Informatika XII</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="screen active">
+  <div class="wrap">
+    <div class="card">
+      <div class="brand-row">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="4 6 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 33h17a7 7 0 0 0 1.2-13.9A9.5 9.5 0 0 0 15 17.5 8 8 0 0 0 15 33z"/>
+            <path d="M24 20.5 19 28.5h10z" stroke-width="2"/>
+            <circle cx="24" cy="20.5" r="2.8" fill="currentColor" stroke="none"/>
+            <circle cx="19" cy="28.5" r="2.8" fill="currentColor" stroke="none"/>
+            <circle cx="29" cy="28.5" r="2.8" fill="currentColor" stroke="none"/>
+            <circle cx="35.5" cy="35" r="5.4" fill="#e8f0fe"/>
+            <path d="m39.4 38.9 4 4"/>
+          </svg>
+        </div>
+        <div>
+          <h1 id="judul">Hasil Penilaian</h1>
+          <div class="muted small">Kelas XII &middot; Jaringan &amp; Cloud Computing</div>
+        </div>
+      </div>
+
+      <!-- Form cek hasil -->
+      <form id="form-hasil" autocomplete="off" novalidate>
+        <p class="muted small" style="margin-bottom:0">Pilih kelas dan namamu, lalu masukkan PIN yang dibagikan gurumu.</p>
+
+        <label for="kelas">Kelas</label>
+        <select id="kelas" required>
+          <option value="">Pilih kelas</option>
+          <option>XII2</option>
+          <option>XII3</option>
+          <option>XII4</option>
+          <option>XII5</option>
+        </select>
+
+        <label for="nama">Nama Lengkap</label>
+        <select id="nama" required disabled>
+          <option value="">Pilih kelas terlebih dahulu</option>
+        </select>
+
+        <label for="pin">PIN</label>
+        <input id="pin" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" placeholder="PIN dari gurumu" required>
+
+        <button id="btn-lihat" class="btn block" type="submit">Lihat Hasil</button>
+        <div id="err" class="error" role="alert"></div>
+        <p class="small muted" style="text-align:center; margin:14px 0 0"><a href="index.html">&larr; Kembali ke halaman pengerjaan</a></p>
+      </form>
+
+      <!-- Tampilan hasil -->
+      <section id="hasil" class="hidden">
+        <div style="text-align:center; margin:6px 0 18px">
+          <div class="muted small" id="h-info"></div>
+          <h2 id="h-nama" style="margin:2px 0 14px"></h2>
+          <div class="big-score"><span id="h-nilai">0</span><span class="muted" style="font-size:1.1rem; font-weight:600"> / 100</span></div>
+          <div id="h-pred" class="pill ok" style="margin-top:12px"></div>
+        </div>
+        <h3>Skor per soal <span class="muted small">(maks <span id="h-maks">10</span>)</span></h3>
+        <div class="bars" id="h-bars"></div>
+        <button id="btn-lagi" class="btn ghost block" type="button">Cek hasil lain</button>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script src="config.js"></script>
+<script src="hasil.js"></script>
+</body>
+</html>
