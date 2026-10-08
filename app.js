@@ -184,7 +184,7 @@
   function mulaiUjian(ident, r) {
     S.ident = ident; S.token = r.token; S.soal = r.soal;
     S.offset = r.now - Date.now();
-    S.deadline = r.deadline; S.pelanggaran = r.pelanggaran || 0; S.maks = r.maks || 3;
+    S.deadline = r.deadline; S.pelanggaran = r.pelanggaran || 0; S.maks = typeof r.maks === 'number' ? r.maks : 3;   // 0 = tanpa batas (hanya dicatat)
     S.jawaban = r.soal.map(function (q, i) { return (r.jawaban && r.jawaban[i]) || ''; });
     try {   // cadangan lokal bila server kosong
       var d = JSON.parse(localStorage.getItem(draftKey()) || 'null');
@@ -199,7 +199,7 @@
     clearInterval(S.timerId); S.timerId = setInterval(tick, 500); tick();
     clearInterval(S.saveId); S.saveId = setInterval(simpanDraft, 40000);
     setTimeout(setBaseline, 900);
-    if (S.pelanggaran >= S.maks) kirim(true, 'Batas pelanggaran tercapai');
+    if (S.maks > 0 && S.pelanggaran >= S.maks) kirim(true, 'Batas pelanggaran tercapai');
   }
 
   function setBaseline() { S.baseW = window.innerWidth * (window.devicePixelRatio || 1); }
@@ -215,8 +215,8 @@
 
   function updatePel() {
     var p = $('pill-pel');
-    p.textContent = 'Pelanggaran: ' + S.pelanggaran + '/' + S.maks;
-    p.className = 'pill' + (S.pelanggaran >= 2 ? ' bad' : S.pelanggaran === 1 ? ' warn' : ' ok');
+    p.textContent = 'Pelanggaran: ' + S.pelanggaran + (S.maks > 0 ? '/' + S.maks : '');
+    p.className = 'pill' + (S.maks > 0 && S.pelanggaran >= 2 ? ' bad' : S.pelanggaran >= 1 ? ' warn' : ' ok');
   }
 
   function buildNav() {
@@ -335,10 +335,10 @@
   function pelanggaran(jenis) {
     if (S.phase !== 'exam' || S.locked || S.submitting) return;
     S.locked = true; S.pelanggaran++; updatePel();
-    $('lock-pesan').textContent = jenis + '. Ini dicatat sebagai pelanggaran ke-' + S.pelanggaran + ' dari ' + S.maks + '.';
+    $('lock-pesan').textContent = jenis + '. Ini dicatat sebagai pelanggaran ke-' + S.pelanggaran + (S.maks > 0 ? ' dari ' + S.maks : '') + '.';
     show('ov-lock');
     api('lapor', Object.assign({ token: S.token, jenis: jenis }, idPair())).catch(function () {});
-    if (S.pelanggaran >= S.maks) kirim(true, 'Batas pelanggaran tercapai');
+    if (S.maks > 0 && S.pelanggaran >= S.maks) kirim(true, 'Batas pelanggaran tercapai');
   }
 
   document.addEventListener('fullscreenchange', function () { if (!isFs()) pelanggaran('Keluar dari layar penuh'); });
